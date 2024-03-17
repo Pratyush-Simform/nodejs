@@ -1,41 +1,35 @@
-// const SuperHero = require("./super-hero");
-const data = require("./data.json")
-// const add = require('./add');
+const express = require("express");
+const mongoose = require("mongoose");
+const Product = require("./models/product.model.js");
+const productRoute = require("./routes/product.route.js");
+const app = express();
 
-// console.log("hello world");
-// const sum = add(1,3);
-// console.log(sum);
+// middleware
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
-// require("./batman");
-// require("./superman");
 
-// console.log(superhero.getName());
-// superhero.setName("MAry-jane");
-// console.log(superhero.getName());
+// routes
+app.use("/api/products", productRoute);
 
-// // here module caching is working as we are making new instance of superhero class we expect the value to be spider-man but actually it is mary-jane it is hapening due to module caching
-// // objects are passed by reference so we get the object with the modified value 
-// const newHero = require('./super-hero');
-// console.log(newHero.getName());
 
-// const ironMan = new SuperHero("IronMan");
-// console.log(ironMan.getName());
-// ironMan.setName("Tony Stark");
-// console.log(ironMan.getName());
 
-// const hulk = new SuperHero("HULK");
-// console.log(hulk.getName());
-// hulk.setName("Bruce Banner");
-// console.log(hulk.getName());
 
-// // way to bypass the caching
+app.get("/", (req, res) => {
+  res.send("Hello from Node API Server Updated");
+});
 
-// const math = require("./math")
-// const { add, subtract } = math;
-// console.log(add(45,9));
-// console.log(subtract(45,9));
 
-// console.log(math.add(3,7));
-// console.log(math.subtract(3,7));
-
-console.log(data.address.city);
+mongoose
+.connect(
+    "mongodb+srv://pratyushsingh92:0EycPZSBA4IXwfAH@backenddb.c5omgz6.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB"
+  )
+  .then(() => {
+    console.log("Connected to database!");
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
+    });
+  })
+  .catch(() => {
+    console.log("Connection failed!");
+  });
